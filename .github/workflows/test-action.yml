@@ -78,6 +78,9 @@ jobs:
       env:
         SALT_REQUIREMENT: salt==${{ matrix.salt-version }}
         SKIP_REQUIREMENTS_INSTALL: YES
+        AZURE_CLIENT_ID: ${{ env.CREDENTIAL1 }}
+        AZURE_CLIENT_SECRET: ${{ env.CREDENTIAL2 }}
+        AZURE_SUBSCRIPTION_ID: ${{ env.CREDENTIAL3 }}
       run: |
         nox --force-color -e tests-3 -- -vv tests/
 
