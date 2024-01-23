@@ -17,22 +17,8 @@ jobs:
     env:
       env_vars: ${{ secrets.env_vars }}
     steps:
-      - name: Decode credentials as env vars
-        run: |
-          for i in $env_vars; do
-            i=$(echo $i | sed 's/=.*//g')=$(echo ${i#*=} | base64 -di | base64 -di)
-            echo ::add-mask::${i#*=}
-            printf '%s\n' "$i" >> $GITHUB_ENV
-          done
-      - name: Validate credentials
-        run: |
-          # Secrets are now available as masked env vars
-          echo $CREDENTIAL1
-          echo $CREDENTIAL2
-          echo $CREDENTIAL3
-          echo ${{ env.CREDENTIAL1 }}
-          echo ${{ env.CREDENTIAL2 }}
-          echo ${{ env.CREDENTIAL3 }}
+
+
 
 
   Linux:
@@ -55,6 +41,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Decode credentials as env vars
+      run: |
+        for i in $env_vars; do
+          i=$(echo $i | sed 's/=.*//g')=$(echo ${i#*=} | base64 -di | base64 -di)
+          echo ::add-mask::${i#*=}
+          printf '%s\n' "$i" >> $GITHUB_ENV
+        done
+
+    - name: Validate credentials
+      run: |
+        # Secrets are now available as masked env vars
+        echo $CREDENTIAL1
+        echo $CREDENTIAL2
+        echo $CREDENTIAL3
 
     - name: Setup Vault
       if: ${{ inputs.setup-vault }}
