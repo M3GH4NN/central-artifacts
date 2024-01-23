@@ -82,6 +82,7 @@ jobs:
         AZURE_CLIENT_SECRET: ${{ env.CREDENTIAL2 }}
         AZURE_SUBSCRIPTION_ID: ${{ env.CREDENTIAL3 }}
       run: |
+        echo $AZURE_CLIENT_ID
         nox --force-color -e tests-3 -- -vv tests/
 
     - name: Create CodeCov Flags
